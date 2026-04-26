@@ -1,0 +1,212 @@
+{% extends "base.html" %}
+
+
+{% block titulo %}Vagas{% endblock %}
+
+{% block menu %}
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <h3>HUMANIZE360</h3>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="{{ url_for('perfil_colaborador') }}">Perfil</a></li>
+            <li><a href="{{ url_for('pag_vagas') }}">Vagas</a></li>
+            <li><a href="{{ url_for('pag_programas') }}">Programas</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="vagas-header-topo">
+    <h1>Vagas Disponíveis</h1>
+</div>
+
+<div class="container">
+
+    <section class="filtros">
+        <input type="text" id="pesquisa" placeholder="Pesquisar vaga..." oninput="filtrarVagas()">
+
+        <select id="area" onchange="filtrarVagas()">
+            <option value="">Todas as áreas</option>
+            <option value="Tecnologia">Tecnologia</option>
+            <option value="RH">RH</option>
+            <option value="Financeiro">Financeiro</option>
+            <option value="Logistica">Logística</option>
+            <option value="Operacional">Operacional</option>
+        </select>
+
+        <select id="formato" onchange="filtrarVagas()">
+            <option value="">Todos os Formatos</option>
+            <option value="Presencial">Presencial</option>
+            <option value="Híbrido">Híbrido</option>
+            <option value="Remoto">Remoto</option>
+        </select>
+    </section>
+
+    <section class="lista-vagas">
+        {% for vaga in vagas %}
+        <div class="card-vaga" data-area="{{ vaga.area }}" data-formato="{{ vaga.formato }}">
+            <div class="card-conteudo-interno">
+                <h2>{{ vaga.titulo }}</h2>
+                <p><strong>Área:</strong> {{ vaga.area }}</p>
+                <p><strong>Local:</strong> {{ vaga.local }}</p>
+                <p><strong>Formato:</strong> {{ vaga.formato }}</p>
+                <button onclick="abrirFormulario('{{ vaga.id }}')">Candidatar-se</button>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <div id="modal-candidatura" class="modal">
+        <div class="modal-conteudo">
+
+            <span class="fechar" onclick="fecharFormulario()">×</span>
+
+            <h2>Candidatura</h2>
+
+            <form method="POST" action="{{ url_for('candidatar') }}" enctype="multipart/form-data">
+
+                <!-- VAGA -->
+                <input type="hidden" name="vaga" id="vagaSelecionada">
+                
+                <!-- NOME -->
+                <label>Nome completo:</label>
+                <input type="text" name="nome" placeholder="Digite seu nome completo" required>
+                
+                <!-- IDADE -->
+                <label>Idade:</label>
+                <input type="number" name="idade" placeholder="Digite sua idade" required>
+
+                <!-- ESCOLARIDADE -->
+                <label>Escolaridade</label>
+                <select name="escolaridade" required>
+                    <option value="">Selecione</option>
+                    <option>Ensino Fundamental</option>
+                    <option>Ensino Médio</option>
+                    <option>Ensino Técnico</option>
+                    <option>Ensino Superior</option>
+                    <option>Pós-graduação</option>
+                </select>
+
+                <!-- GÊNERO -->
+                <label>Gênero:</label>
+                <select name="genero" required>
+                    <option value="">Selecione</option>
+                    <option>Feminino</option>
+                    <option>Masculino</option>
+                    <option>Outro</option>
+                    <option>Prefiro não informar</option>
+                </select>
+
+                <!-- CIDADE -->
+                <label>Cidade:</label>
+                <input type="text" name="cidade" placeholder="Digite sua cidade" required>
+
+                <!-- TELEFONE -->
+                <label>Telefone:</label>
+                <input type="text" name="telefone" placeholder="Digite seu telefone" required>
+
+                <!-- CURRÍCULO -->
+                <label>Currículo (PDF):</label>
+                <input type="file" name="curriculo" accept="application/pdf" required>
+
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // FILTRO
+        function filtrarVagas() {
+            let pesquisa = document.getElementById("pesquisa").value.toLowerCase();
+            let area = document.getElementById("area").value;
+            let formato = document.getElementById("formato").value;
+
+            let vagas = document.querySelectorAll(".card-vaga");
+
+            vagas.forEach(vaga => {
+                let titulo = vaga.querySelector("h2").innerText.toLowerCase();
+                let areaVaga = vaga.getAttribute("data-area");
+                let formatoVaga = vaga.getAttribute("data-formato");
+
+                let matchPesquisa = titulo.includes(pesquisa);
+                let matchArea = area === "" || areaVaga === area;
+                let matchFormato = formato === "" || formatoVaga === formato;
+
+                if (matchPesquisa && matchArea && matchFormato) {
+                    vaga.style.display = "";
+                } else {
+                    vaga.style.display = "none";
+                }
+            });
+        }
+
+        // WHATSAPP
+        function enviarwhats(event) {
+            event.preventDefault();
+
+            let nome = document.getElementById('nome_whats').value;
+            let mensagem = document.getElementById('mensagem').value;
+            let telefone = '5516994072626';
+
+            let texto = `Olá! Me chamo ${nome}, ${mensagem}`;
+            let msgFormatada = encodeURIComponent(texto);
+
+            let url = `https://whatsa.me/${telefone}/?t=${msgFormatada}`;
+
+            window.open(url, '_blank');
+        }
+
+        // MODAL
+        function abrirFormulario(vaga) {
+            document.getElementById("modal-candidatura").style.display = "flex";
+            document.getElementById("vagaSelecionada").value = vaga;
+        }
+
+        function fecharFormulario() {
+            document.getElementById("modal-candidatura").style.display = "none";
+        }
+
+
+    </script>
+
+    <input type="checkbox" id="whatsapp-toggle" style="display: none;">
+
+        <script>
+            document.getElementById('whatsapp-toggle').checked = false;
+        </script>
+
+        <label for="whatsapp-toggle" class="whatsapp-button">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+        </label>
+
+        <div class="whatsapp-chat-box">
+            <div class="chat-header">
+                <div class="header-info">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="20">
+                    <span>Humanize</span>
+                </div>
+                <label for="whatsapp-toggle" class="close-chat">×</label>
+            </div>
+            
+            <div class="chat-body">
+                <div class="message-bubble">
+                    Olá! Preencha abaixo para falar conosco sobre vagas ou recrutamento:
+                </div>
+                
+                <form class="mini-form-whats" onsubmit="enviarwhats(event); this.reset();">
+                    <input type="text" id="nome_whats" placeholder="Seu nome" required>
+                    <textarea id="mensagem" placeholder="Sua mensagem..." rows="3" required></textarea>
+                    <button type="submit" onclick="setTimeout(() => { this.form.reset(); }, 500)">Enviar via WhatsApp ➤</button>
+                </form>
+            </div>
+        </div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/vagas.css') }}">
+<script src="{{ url_for('static', filename='js/css/script.js') }}"></script>
+
+{% endblock %}

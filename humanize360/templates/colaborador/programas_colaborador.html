@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block titulo %}Programas Disponíveis{% endblock %}
+
+{% block menu %}
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <h3>HUMANIZE360</h3>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="{{ url_for('perfil_colaborador') }}">Perfil</a></li>
+            <li><a href="{{ url_for('pag_vagas') }}">Vagas</a></li>
+            <li><a href="{{ url_for('pag_programas') }}">Programas</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="programas-header-topo">
+    <h1>Programas Disponíveis</h1>
+</div>
+
+<div class="container-principal">
+
+    <section class="filtros-programas">
+        <div class="filtro-wrapper">
+            <label for="tipo">Filtrar por Categoria:</label>
+            <select id="tipo" onchange="filtrarProgramas()">
+                <option value="">Todos os Tipos</option>
+                <option value="Treinamento">Treinamento</option>
+                <option value="Aviso">Aviso</option>
+                <option value="Campanha">Campanha</option>
+                <option value="Evento">Evento</option>
+            </select>
+        </div>
+    </section>
+
+    <section class="grid-programas" id="lista-programas">
+        {% for prog in programas %}
+        <div class="card-programa" data-tipo="{{ prog.tipo or '' }}">
+            <div class="detalhe-decorativo"></div>
+            <div class="conteudo-card">
+                <h2>{{ prog.titulo }}</h2>
+                <p><strong>Tipo:</strong> {{ prog.tipo or 'Não informado' }}</p>
+                
+                <a href="/uploads/{{ prog.pdf }}" target="_blank" style="text-decoration: none;">
+                    <button class="botao-visualizar">Ver PDF</button>
+                </a>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+</div>
+
+<!-- ⚡ JS -->
+<script>
+function filtrarProgramas() {
+    const tipo = document.getElementById("tipo").value;
+    const cards = document.querySelectorAll(".card-programa");
+
+    cards.forEach(card => {
+        const cardTipo = card.dataset.tipo || "";
+
+        if (tipo === "" || cardTipo === tipo) {
+            card.style.display = "block";
+        } else {
+            card.style.display = "none";
+        }
+    });
+}
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/programa.css') }}">
+
+{% endblock %}

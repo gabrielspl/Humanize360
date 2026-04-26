@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block titulo %}Perfil do Gestor{% endblock %}
+
+{% block menu %}
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <h3>HUMANIZE</h3>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li class="active"><a href="{{ url_for('perfil_gestor') }}">Perfil</a></li>
+            <li><a href="{{ url_for('pag_candidatos') }}">Candidatos</a></li>
+            <li><a href="{{ url_for('pag_programas_gestor') }}">Programas</a></li>
+            <li class="logout"><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+<div class="main-content">
+    <header class="welcome-header">
+        <h2>Perfil do <span>Gestor</span></h2>
+        <p>Gerencie suas informações corporativas abaixo.</p><br>
+    </header>
+
+    <div class="dashboard-grid">
+        <div class="info-card">
+            <h4>Dados da Conta</h4>
+            <div class="perfil-detalhes">
+                <p><strong>Nome:</strong> Maria Gonçalves</p>
+                <p><strong>Email:</strong> maria@humanize.com </p>
+                <p><strong>Empresa:</strong> Humanize360 </p>
+            </div>
+        </div>
+        
+
+    </div>
+</div>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/perfil.css') }}">
+
+{% endblock %}

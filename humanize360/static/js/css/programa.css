@@ -1,0 +1,229 @@
+
+body { 
+    background-color: #fdfdf5 !important; 
+    margin: 0; 
+    font-family: 'Segoe UI', Arial, sans-serif; 
+    
+}
+
+/* 1. CENTRALIZAR O CONTEÚDO PRINCIPAL */
+.container-principal { 
+    max-width: 1200px; 
+    margin: 0 auto; /* Isso centraliza o bloco na tela */
+    padding: 40px 20px; 
+}
+
+/* 2. CENTRALIZAR O HEADER */
+.programas-header-topo {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+    color: #c5a367;
+    text-align: center;
+    padding: 60px 20px;
+    border-bottom: 5px solid #c5a367;
+    margin-bottom: 30px;
+    width: 100%; 
+    box-sizing: border-box;
+}
+
+.programas-header-topo h1 { 
+    margin: 0; 
+    text-transform: uppercase; 
+    letter-spacing: 4px; 
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+/* 3. FILTROS ALINHADOS À DIREITA (conforme imagem) */
+.filtros-programas {
+    display: flex;
+    justify-content: flex-end;
+    max-width: 1200px;
+    margin: 0 auto 30px auto;
+}
+
+#tipo {
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: 1px solid #0d1b2a;
+    background: white;
+    font-weight: bold;
+    color: #0d1b2a;
+}
+
+/* 4. GRID DE CARDS CENTRALIZADO */
+.grid-programas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 30px;
+    justify-content: center; /* Centraliza os cards se houver poucos */
+}
+
+/* 5. CARD ESTILO PREMIUM (Borda Arredondada e Sombra) */
+.card-programa{
+    background: #ffffff;
+    border-radius: 20px; /* Bordas mais arredondadas como na foto */
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    border-left: 12px solid #0d1b2a; 
+    display: flex;
+    flex-direction: column;
+}
+
+.conteudo-card {
+    padding: 35px;
+}
+
+.card-programa-premium h2 {
+    color: #0d1b2a;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eeeeee;
+    padding-bottom: 10px;
+}
+
+/* 6. BOTÃO DOURADO (Igual ao da imagem) */
+.botao-visualizar {
+    width: 100%;
+    background-color: #c5a367;
+    color: white;
+    border: none;
+    padding: 16px;
+    border-radius: 12px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+    margin-top: 20px;
+}
+
+.botao-visualizar:hover {
+    background-color: #0d1b2a;
+    color: #ffffff;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container-principal { padding: 20px; }
+    .programas-header-topo h1 { font-size: 1.5rem; }
+}
+
+
+/* ------------ GESTOR ---------------- */
+
+
+
+
+/* CONTAINER CENTRALIZADO */
+.container-gestor {
+    max-width: 1200px;
+    margin: -20px auto 50px; /* Sobe um pouco para interagir com o banner */
+    padding: 0 30px;
+}
+
+/* Seção de Ação (Onde está o botão adicionar) */
+.action-section {
+    background: white;
+    padding: 25px 40px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    margin-bottom: 40px;
+    border-bottom: 3px solid #c5a367;
+}
+
+.action-text span {
+    color: #c5a367;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.action-text p {
+    margin: 5px 0 0;
+    color: #1a2533;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+/* BOTÃO ADICIONAR */
+.btn-add {
+    background-color: #c5a367;
+    color: #ffffff;
+    border: 2px solid #c5a367;
+    padding: 12px 28px;
+    border-radius: 50px; /* Botão arredondado é mais moderno */
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-add:hover {
+    background-color: #0d1b2a;
+    color: #ffffff;
+    transform: scale(1.05);
+}
+
+/* GRID DE CARDS */
+.lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7);
+}
+
+.modal-conteudo {
+    background-color: #fdfdf5;
+    margin: 10% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 400px;
+    border: 2px solid #c5a367;
+    position: relative;
+    text-align: left;
+}
+
+.modal-conteudo input, .modal-conteudo select {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.modal-conteudo button {
+    width: 100%;
+    background-color: #c5a367;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.modal-conteudo button:hover {
+    background-color: #0d1b2a;
+    color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.fechar {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}

@@ -1,0 +1,294 @@
+/* ============================================================
+   ESTILO UNIFICADO HUMANIZE - VAGAS E PERFIL
+   ============================================================ */
+
+/* 1. CONFIGURAÇÕES GERAIS E FUNDO */
+body {
+    background-color: #fdfdf5; /* Bege claro oficial */
+    color: #1b263b;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+   
+}
+
+/* 2. CABEÇALHO PREMIUM */
+.vagas-header-topo {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1b263b 100%);
+    color: #c5a367; /* Dourado */
+    text-align: center;
+    padding: 60px 20px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    border-bottom: 5px solid #c5a367;
+}
+
+.vagas-header-topo h1 {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+}
+
+/* 3. FILTROS DE PESQUISA */
+.filtros {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
+.filtros input, 
+.filtros select {
+    padding: 12px 15px;
+    border: 1px solid #d1d1d1;
+    border-radius: 8px;
+    background-color: #ffffff;
+    min-width: 200px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.filtros input:focus {
+    border-color: #c5a367;
+}
+
+/* 4. GRID DE CARDS DE VAGAS */
+.lista-vagas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 25px;
+    padding: 20px 5%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.card-vaga {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    border-left: 10px solid #0d1b2a;
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-vaga:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+
+.card-vaga button {
+    background-color: #c5a367;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+}
+
+.card-vaga button:hover{
+    background-color: #0d1b2a;
+    color: #ffffff;
+}
+
+/* 5. MODAL DE CANDIDATURA (VERTICAL) */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(13, 27, 42, 0.9);
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-conteudo {
+    background-color: #ffffff;
+    padding: 40px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 550px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-top: 10px solid #c5a367;
+}
+
+.modal-conteudo form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.modal-conteudo input, 
+.modal-conteudo select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.modal-conteudo button{
+    background-color: #c5a367;
+    color: #ffffff;
+    border: none;
+    padding: 14px;
+    margin-top: 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.modal-conteudo button:hover{
+    background-color: #0d1b2a;
+    color: #ffffff;
+}
+
+/* 6. WHATSAPP FLUTUANTE (LÓGICA SEM JS) */
+#whatsapp-toggle {
+    display: none;
+}
+
+.whatsapp-button {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    background-color: #25d366;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    cursor: pointer;
+    z-index: 9999;
+    transition: transform 0.3s ease;
+}
+
+.whatsapp-button:hover { transform: scale(1.1); }
+.whatsapp-button img { width: 35px; }
+
+/* JANELA DE CHAT DARK */
+.whatsapp-chat-box {
+    position: fixed;
+    bottom: 100px;
+    right: 25px;
+    width: 310px;
+    background-color: #121212;
+    overflow: hidden;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    z-index: 9998;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* MOSTRAR CHAT QUANDO CHECKED */
+#whatsapp-toggle:checked ~ .whatsapp-chat-box {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+/* DESIGN INTERNO DO CHAT */
+.chat-header { 
+    background: #1ebc57; 
+    padding: 15px 20px; 
+    color: white; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    border-radius: 20px 20px 0 0; 
+    font-weight: bold; 
+}
+
+.close-chat { cursor: pointer; font-size: 20px; opacity: 0.8; }
+
+.chat-body { padding: 20px; background-color: #121212; }
+
+.message-bubble { 
+    background: #333; 
+    color: #efefef; 
+    padding: 15px; 
+    border-radius: 15px 15px 15px 0; 
+    font-size: 14px; 
+    margin-bottom: 20px;
+    position: relative;
+    line-height: 1.5;
+}
+
+.message-bubble::after {
+    content: "";
+    position: absolute;
+    left: -10px;
+    bottom: 0;
+    border-style: solid;
+    border-width: 10px 10px 0 0;
+    border-color: transparent #333 transparent transparent;
+}
+
+/* ESTILO DO FORMULÁRIO DENTRO DO CHAT */
+.mini-form-whats {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.mini-form-whats input, 
+.mini-form-whats textarea {
+    background: #222;
+    border: 1px solid #444;
+    border-radius: 8px;
+    padding: 12px;
+    color: white;
+    font-size: 14px;
+    font-family: inherit;
+    outline: none;
+}
+
+.mini-form-whats input:focus, 
+.mini-form-whats textarea:focus {
+    border-color: #25d366;
+}
+
+.mini-form-whats button {
+    background: #25d366;
+    color: white;
+    border: none;
+    padding: 14px;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 14px;
+}
+
+.mini-form-whats button:hover {
+    background: #1ebc57;
+}
+
+/* 7. PERFIL DO COLABORADOR */
+.perfil-welcome {
+    text-align: center;
+    padding: 40px;
+}
+
+.perfil-welcome h2 {
+    color: #0d1b2a;
+    font-size: 2rem;
+}

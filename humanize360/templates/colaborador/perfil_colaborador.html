@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block titulo %}Área do Colaborador{% endblock %}
+
+{% block menu %}
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <h3>HUMANIZE360</h3>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="{{ url_for('perfil_colaborador') }}">Perfil</a></li>
+            <li><a href="{{ url_for('pag_vagas') }}">Vagas</a></li>
+            <li><a href="{{ url_for('pag_programas') }}">Programas</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+
+
+<div class="main-content dashboard-container">
+    <header class="welcome-header">
+        <h2>Bem-vindo, <span class="destaque">{{ colaborador.nome }}!</span></h2>
+        <p>Acompanhe seu progresso na empresa e novas oportunidades internas.</p>
+    </header>
+
+    <div class="status-grid">
+        <div class="card-status info">
+            <h3>{{ inscricoes|length }}</h3>
+            <p>Candidaturas Realizadas</p>
+        </div>
+        <div class="card-status warning">
+            <h3>{{ total_analise if total_analise > 0 else '0' }}</h3>
+            <p>Em Análise</p>
+        </div>
+    </div>
+
+    <div class="secao-candidaturas">
+        <h3>Meus Processos Seletivos </h3>
+        {% if inscricoes %}
+            <table class="tabela-status">
+                <thead>
+                    <tr>
+                        <th>Vaga</th>
+                        <th>Cidade</th>
+                        <th>Status</th>
+                        <th>Currículo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inscricoes %}
+                    <tr>
+                        <td><strong>{{ item.vaga_nome }}</strong></td>
+                        <td>{{ item.cidade }}</td>
+                        <td>
+                            <span class="badge {% if item.status == 'Recusado' %}badge-recusado{% else %}badge-analise{% endif %}">
+                                {{ item.status or 'Em Análise' }}
+                            </span>
+                        </td>
+
+                        <td>
+                        {% if item.curriculo %}
+                            <a href="{{ url_for('uploads', filename=item.curriculo) }}" target="_blank" class="btn-detalhes">
+                                📄 Ver arquivo
+                            </a>
+                        {% else %}
+                            <span class="texto-secundario">Sem arquivo</span>
+                        {% endif %}
+                    </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <div class="sem-dados">
+                <br>
+                <p>Você não está participando de nenhum recrutamento no momento.</p><br>
+                <a href="{{ url_for('pag_vagas') }}" class="btn-vagas">Explorar Vagas</a>
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="secao-programas">
+        <h3>Meus Programas e Treinamentos</h3>
+        <div class="programas-progresso-grid">
+            {% for prog in programas_treinamento %}
+            <div class="card-treinamento">
+                <div class="info-treinamento">
+                    <h4>{{ prog.titulo }}</h4>
+                    <span class="status-texto">{{ prog.status }}</span>
+                </div>
+                
+                <div class="barra-progresso-container">
+                    <div class="barra-progresso-preenchida" style="--progresso: {{ prog.progresso | default(0) }}%;"></div>
+                </div>
+                <div class="porcentagem-texto">{{ prog.progresso }}% completo</div>
+                
+                <a href="#" class="btn-continuar">Continuar</a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/perfil.css') }}">
+
+{% endblock %}

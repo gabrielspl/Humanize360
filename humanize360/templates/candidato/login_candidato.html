@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/index.css') }}">
+
+</head>
+
+<body>
+
+<div class="card">
+
+    <div class="direito">
+        <div class="direito-content">
+                <h1>ENTRE NA SUA CONTA!</h1>
+                <p>Acesse sua conta para continuar aproveitando todos os recursos do Humanize.</p>
+        </div>
+    </div>
+
+    <div class="esquerdo">
+        <h2>Login</h2>  
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+
+                    {% if categoria == 'danger' %}
+                        {% set cor = 'red' %}
+                    {% elif categoria == 'success' %}
+                        {% set cor = 'green' %}
+                    {% else %}
+                        {% set cor = 'black' %}
+                    {% endif %}
+
+                    <p class="mensagem">
+                        {{ mensagem }}
+                    </p>
+
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+                <form method="POST">
+                    <label>Usuário:</label>
+                    <input type="text" name="usuario" placeholder="Digite seu usuário" required>
+
+                    <label>Senha:</label>
+                    <input type="password" name="senha" placeholder="Digite sua senha" required>
+
+                    <button type="submit">Entrar</button>
+                </form>
+
+                <div class="divisor">
+                    <span>ou</span>
+                </div>
+
+                <button type="button" class="btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo">
+                    Entrar com o Google
+                </button>
+
+                <div class="link">
+                    Não possui uma conta? <br>
+                    <a href="{{ url_for('cadastro') }}">Cadastre-se</a>
+                </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

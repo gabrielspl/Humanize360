@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/css/login.css') }}">
+    <title>Login</title>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Login</h2>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for categoria, mensagem in messages %}
+
+                    {% if categoria == 'danger' %}
+                        {% set cor = 'red' %}
+                    {% elif categoria == 'success' %}
+                        {% set cor = 'green' %}
+                    {% else %}
+                        {% set cor = 'black' %}
+                    {% endif %}
+
+                    <p>
+                        {{ mensagem }}
+                    </p>
+
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form method="POST">
+            <label>Usuário:</label>
+            <input type="text" name="usuario" placeholder="Digite seu usuário" required><br><br>
+
+            <label>Senha:</label>
+            <input type="password" name="senha" placeholder="Digite sua senha" required><br><br>
+
+            <button type="submit">Entrar</button>
+        </form>
+
+    </div>
+
+    <br>
+
+
+</body>
+
+</html>

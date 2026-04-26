@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block titulo %}Programas Disponíveis{% endblock %}
+
+{% block menu %}
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <h3>HUMANIZE360</h3>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="{{ url_for('perfil_gestor') }}">Perfil</a></li>
+            <li><a href="{{ url_for('pag_candidatos') }}">Candidatos</a></li>
+            <li><a href="{{ url_for('pag_programas_gestor') }}">Programas</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+
+<div class="programas-header-topo">
+     <h1>Programas Disponíveis</h1>
+</div>
+
+<main class="main-content">
+    <div class="container-gestor">
+        <div class="action-section">
+            <div class="action-text">
+                <span>Gestão de Conteúdo</span>
+                <p>Você deseja adicionar novos programas ao catálogo?</p>
+            </div>
+            <button class="btn-add" onclick="abrirModalPrograma()">
+                <i class="fas fa-plus"></i> + Adicionar Programa
+            </button>
+        </div>
+
+
+            <!-- <div class="lista-programas">
+                {% for p in programas %}
+                <div class="card">
+                    <div class="card-edge"></div>
+                    <div class="card-body">
+                        <span class="tag-tipo">{{ p.tipo }}</span>
+                        <h2>{{ p.titulo }}</h2>
+                        <hr class="divider">
+                        <a href="/uploads/{{ p.pdf }}" target="_blank" class="btn-ver">
+                            VER PDF
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div> -->
+
+        <section class="grid-programas" id="lista-programas">
+                {% for prog in programas %}
+            <div class="card-programa-premium" data-tipo="{{ prog.tipo or '' }}">
+                <div class="detalhe-decorativo"></div>
+                <div class="conteudo-card">
+                        <h2>{{ prog.titulo }}</h2>
+                        <p><strong>Tipo:</strong> {{ prog.tipo or 'Não informado' }}</p>
+                        
+                        <a href="/uploads/{{ prog.pdf }}" target="_blank" style="text-decoration: none;">
+                            <button class="botao-visualizar">Ver PDF</button>
+                        </a>
+                </div>
+            </div>
+            {% endfor %}
+         </section>
+    </div>
+</main>
+
+<div id="modalPrograma" class="modal">
+    <div class="modal-conteudo">
+
+        <span class="fechar" onclick="fecharModalPrograma()">×</span>
+
+        <h2>Novo Programa</h2>
+
+        <form method="POST" action="{{ url_for('adicionar_programa') }}" enctype="multipart/form-data">
+
+            <input type="text" name="titulo" placeholder="Título do programa" required>
+            <label for="tipo">Tipo:</label><br>
+            <select name="tipo" required>
+                    <option value="">Selecione</option>
+                    <option value="Campanha">Campanha</option>
+                    <option value="Aviso">Aviso</option>
+                    <option value="Treinamento">Treinamento</option>
+            
+                </select>
+            
+            <input type="file" name="pdf" accept="application/pdf" required>
+
+            <button type="submit">Salvar</button>
+        </form>
+
+    </div>
+</div>
+
+<script>
+function abrirModalPrograma() {
+    document.getElementById("modalPrograma").style.display = "block";
+}
+
+function fecharModalPrograma() {
+    document.getElementById("modalPrograma").style.display = "none";
+}
+
+// 🔥 NOVO
+window.onclick = function(event) {
+    let modal = document.getElementById("modalPrograma");
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/programa.css') }}">
+
+{% endblock %}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/css/home.css') }}">
+    <meta charset="UTF-8">
+    <title>Portal da Empresa</title>
+
+
+</head>
+
+<body>
+
+    <div class="container">
+        <h1>Bem-vindo ao Portal</h1>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>Gestor</h3>
+                <a href="{{ url_for('login_gestor') }}?tipo=gestor">Entrar</a>
+            </div>
+
+            <div class="card">
+                <h3>Colaborador</h3>
+                <a href="{{ url_for('login_colaborador') }}?tipo=colaborador">Entrar</a>
+            </div>
+
+            <div class="card">
+                <h3>Candidato</h3>
+                <a href="{{ url_for('login_candidato') }}?tipo=candidato">Entrar</a>
+            </div>
+
+        </div>
+
+
+        
+    </div>
+
+</body>
+</html>

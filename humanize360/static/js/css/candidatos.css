@@ -1,0 +1,300 @@
+/* Configurações Gerais */
+:root {
+    --primary-dark: #0f172a;
+    --accent-gold: #c5a059;
+    --bg-light: #fdfdf5;
+    --text-main: #334155;
+    --white: #ffffff;
+}
+
+body {
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif; /* Recomendado importar do Google Fonts */
+}
+
+.container-principal {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* 1. Dashboard Cards (Os números do topo) */
+
+.titulo-sessao {
+    font-size: 1.6rem;
+    color: var(--primary-dark);
+    margin: 20px 0 25px 5px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    position: relative;
+    padding-left: 15px;
+}
+
+.titulo-sessao::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 20%;
+    height: 60%;
+    width: 4px;
+    background-color: #c5a059;
+    border-radius: 2px;
+}
+
+.cards-dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+}
+
+
+.card {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border-bottom: 4px solid var(--accent-gold); 
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card h3 {
+    margin: 0;
+    color: var(--primary-dark);
+    left: 5px;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.card p {
+    color: #64748b;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+    font-weight: 600;
+}
+
+/* 2. Vagas Disponíveis (Estilo horizontal clean) */
+.vagas {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.vaga {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 16px 20px;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-left: 5px solid #c5a059; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.vaga strong {
+    display: block;
+    font-size: 1rem;
+    color: var(--primary-dark);
+}
+
+/* 3. Filtros (Melhorando a barra escura) */
+.filtro {
+    background: var(--primary-dark);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.filtro input, .filtro select {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    outline: none;
+}
+
+.btn-filtrar {
+    background: var(--accent-gold);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-limpar {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255,255,255,0.3);
+    padding: 10px 15px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* 4. Lista de Candidatos (Estilo Card Moderno) */
+.lista {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.card-candidato {
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.detalhe-lateral {
+    width: 6px;
+    background: var(--accent-gold);
+}
+
+.candidato {
+    padding: 1.5rem;
+    width: 100%;
+}
+
+.tag-vaga {
+    background: #f1f5f9;
+    color: var(--primary-dark);
+    font-size: 0.7rem;
+    padding: 4px 10px;
+    border-radius: 20px;
+    display: inline-block;
+    margin-bottom: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.btn-visualizar {
+    width: 100%;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    color: var(--primary-dark);
+    padding: 8px;
+    margin-top: 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn-visualizar:hover {
+    background: var(--primary-dark);
+    color: white;
+}
+
+/* Importação de uma fonte moderna similar à do print */
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+
+.modal {
+    display: none; /* Escondido por padrão */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fundo escurecido */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-conteudo {
+    background-color: #fff;
+    margin: 5% auto;
+    padding: 30px;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 15px; /* Bordas arredondadas conforme o print */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    position: relative;
+    border-top: 8px solid #c5a059; /* Detalhe dourado no topo do print */
+}
+
+.fechar {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 24px;
+    color: #333;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.fechar:hover {
+    color: #000;
+}
+
+h2 {
+    color: #002147; /* Azul marinho do título */
+    font-size: 28px;
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.modal-grid {
+    display: grid;
+    grid-template-columns: 1fr; /* Uma coluna para mobile */
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+/* Estilização dos campos de detalhes */
+.modal-grid p {
+    margin: 0;
+    font-size: 16px;
+    color: #444;
+    border-bottom: 1px solid #f0f0f0; /* Linha sutil de separação */
+    padding-bottom: 8px;
+}
+
+.modal-grid b {
+    color: #002147;
+    display: block; /* Label em cima */
+    margin-bottom: 4px;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Botão de currículo */
+.btn-curriculo {
+    display: inline-block;
+    background-color: #c5a059;
+    color: white;
+    padding: 12px 20px;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Responsividade para telas maiores */
+@media (min-width: 480px) {
+    .modal-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='js/css/index.css') }}">
+    <title>Cadastro</title>
+
+</head>
+
+<body>
+
+    <div class="card">
+
+        <div class="direito">
+            <div class="direito-content">
+                <h1>CRIE SUA CONTA!</h1>
+                <p class="subtitle">Ainda não faz parte do Humanize?</p>
+                <p>
+                    Crie sua conta em poucos passos e comece agora a
+                    conectar oportunidades, pessoas e resultados em um só lugar.
+                </p>
+            </div>
+        </div>
+
+        <div class="esquerdo">
+            <h2>Criar conta</h2>
+
+            <!-- Mensagens Flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for categoria, mensagem in messages %}
+                        <p class="{{ categoria }}">{{ mensagem }}</p>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            <form method="POST">
+
+                <label>Usuário:</label>
+                <input type="text" name="usuario" placeholder="Digite seu usuário" required>
+    
+                <label>Email:</label>
+                <input type="email" name="email" placeholder="Digite seu email" required>
+
+                <label>Senha:</label>
+                <input type="password" name="senha" placeholder="Digite sua senha" required>
+
+                <label>Confirmar Senha:</label>
+                <input type="password" name="confirmar_senha" placeholder="Confirme sua senha" required>
+
+                <button type="submit">Cadastrar</button>
+
+            </form>
+
+            <div class="link">
+                <p>Já possui conta?</p>
+                <a href="{{ url_for('login_candidato') }}">Fazer Login</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

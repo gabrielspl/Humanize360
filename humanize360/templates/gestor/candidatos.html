@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block titulo %}Candidatos{% endblock %}
+
+{% block menu %}
+<div class="sidebar-container">
+    <div class="sidebar-header">
+        <h3>HUMANIZE360</h3>
+    </div>
+    <nav class="sidebar-nav">
+        <ul>
+            <li><a href="{{ url_for('perfil_gestor') }}">Perfil</a></li>
+            <li><a href="{{ url_for('pag_candidatos') }}">Candidatos</a></li>
+            <li><a href="{{ url_for('pag_programas_gestor') }}">Programas</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+</div>
+{% endblock %}
+
+{% block conteudo %}
+<main class="container-principal">
+
+    <h2 class="titulo-sessao">Visão Geral do Recrutamento</h2>
+
+    <div class="cards-dashboard">
+        <div class="card">
+            <h3>{{ candidatos|length }}</h3>
+            <p>Total de Candidatos</p>
+        </div>
+        <div class="card">
+            <h3>5</h3>
+            <p>Não iniciados</p>
+        </div>
+        <div class="card">
+            <h3>3</h3>
+            <p>Iniciados</p>
+        </div>
+        <div class="card">
+            <h3>3</h3>
+            <p>Contratados</p>
+        </div>
+        <div class="card">
+            <h3>3</h3>
+            <p>Aguardando retorno</p>
+        </div>
+    </div>
+
+    <h3>Vagas Disponíveis</h3>
+
+    <div class="vagas">
+        {% for v in vagas %}
+        <div class="vaga">
+            <p><strong>{{ v.titulo }}</strong></p>
+            <p>Candidatos: {{ vagas_contador.get(v.titulo, 0) }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <form method="get" class="filtro">
+        <select name="genero">
+            <option value="">Gênero</option>
+            <option value="Feminino">Feminino</option>
+            <option value="Masculino">Masculino</option>
+            <option value="Outro">Outro</option>
+        </select>
+
+        <input type="number" name="idade_min" placeholder="Idade mínima">
+        <input type="number" name="idade_max" placeholder="Idade máxima">
+
+        <div class="input-container">
+            <input type="text" name="cidade" id="cidadeInput" placeholder="Buscar cidade"
+                value="{{ request.args.get('cidade', '') }}">
+            <span class="clear-btn" onclick="limparInput('cidadeInput')"></span>
+        </div>
+
+        <select name="vaga">
+            <option value="">Vaga</option>
+            {% for v in vagas %}
+                <option value="{{ v.titulo }}">{{ v.titulo }}</option>
+            {% endfor %}
+        </select>
+
+        <button type="button" class="btn-limpar" onclick="limparFiltros()">Limpar filtros</button>
+        <button type="submit" class="btn-filtrar">Filtrar</button>
+    </form>
+
+    <hr class="divisor">
+
+    <div class="lista">
+    {% for c in candidatos %}
+    <div class="card-candidato">
+        <div class="detalhe-lateral"></div>
+        
+        <div class="candidato">
+            <div class="tag-vaga">
+                {% for v in vagas %}
+                    {% if v.id == c.vaga_id %} {{ v.titulo }} {% endif %}
+                {% endfor %}
+            </div>
+
+            <h3>{{ c.nome }}</h3>
+            <p class="infos-subtle">{{ c.escolaridade }} • {{ c.tipo }}</p>
+
+            <button class="btn-visualizar" onclick="abrirDetalhes('{{ loop.index0 }}')">
+                Ver candidatura
+            </button>
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+
+</main>
+
+<div id="modalDetalhes" class="modal">
+    <div class="modal-conteudo">
+        <span class="fechar" onclick="fecharDetalhes()">×</span>
+        <h2>Detalhes da Candidatura</h2>
+        <div class="modal-grid">
+            <p><b>Nome:</b> <span id="d_nome"></span></p>
+            <p><b>Idade:</b> <span id="d_idade"></span></p>
+            <p><b>Escolaridade:</b> <span id="d_escolaridade"></span></p>
+            <p><b>Gênero:</b> <span id="d_genero"></span></p>
+            <p><b>Cidade:</b> <span id="d_cidade"></span></p>
+            <p><b>Telefone:</b> <span id="d_telefone"></span></p>
+            <p><b>Vaga:</b> <span id="d_vaga"></span></p>
+        </div>
+        <a id="d_curriculo" class="btn-curriculo" target="_blank">📄 Ver currículo</a>
+    </div>
+</div>
+
+<!-- ⚡ JS -->
+<script>
+const candidatos = JSON.parse('{{ candidatos | tojson | safe }}');
+const vagas = JSON.parse('{{ vagas | tojson | safe }}');
+
+function abrirDetalhes(index) {
+    let c = candidatos[index];
+
+    document.getElementById("d_nome").innerText = c.nome;
+    document.getElementById("d_idade").innerText = c.idade;
+    document.getElementById("d_escolaridade").innerText = c.escolaridade;
+    document.getElementById("d_genero").innerText = c.genero;
+    document.getElementById("d_cidade").innerText = c.cidade;
+    document.getElementById("d_telefone").innerText = c.telefone;
+
+    // 🔥 pegar nome da vaga
+    let nomeVaga = "Não encontrada";
+    for (let v of vagas) {
+        if (v.id === c.vaga_id) {
+            nomeVaga = v.titulo;
+        }
+    }
+
+    document.getElementById("d_vaga").innerText = nomeVaga;
+
+    document.getElementById("d_curriculo").href = "/uploads/" + c.curriculo;
+
+    document.getElementById("modalDetalhes").style.display = "block";
+}
+
+function fecharDetalhes() {
+    document.getElementById("modalDetalhes").style.display = "none";
+}
+
+function limparInput(id) {
+    document.getElementById(id).value = "";
+}
+
+function limparFiltros() {
+    window.location.href = window.location.pathname;
+}
+
+</script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='js/css/candidatos.css') }}">
+
+{% endblock %}
